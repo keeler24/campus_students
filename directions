@@ -1,0 +1,7 @@
+Student.belongsTo(Campus)
+Campus.hasMany(Student)
+
+//available
+//Student.getCampus()
+//Student.setCampus()
+//Campus.getStudents()
