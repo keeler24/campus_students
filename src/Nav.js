@@ -6,7 +6,7 @@ const Nav = () =>{
         <nav style={{backgroundColor:'#424242'}}>
             <div className="nav-wrapper">
                 <a href="#" className="brand-logo left">Hacker University Directory</a>
-                <ul className="right hide-on-med-and-down">
+                <ul id="nav-mobile" className="right hide-on-med-and-down">
                     <li>
                         <NavLink to="/campuses">Campuses</NavLink>
                     </li>

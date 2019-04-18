@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize')
 const faker = require('faker')
-const db = new Sequelize(process.env.DATABASE_URL);
+const db = new Sequelize(process.env.DATABASE_URL,{
+    dialect:'postgres'
+});
 
 const Campus = db.define('campus', {
     uuid:{
