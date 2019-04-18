@@ -81,6 +81,39 @@ export const getOneCampusFromServer = (uuid) =>{
     }
 
 }
+
+export const addStudent = (student) =>{
+    return (dispatch) =>{
+        axios.post('/api/students/', student)
+            .then(resp => {
+                return dispatch(getStudentsFromServer())
+            })
+            .catch(error => console.log(error))
+    }
+}
+
+export const updateStudent = (student) =>{
+    return (dispatch) =>{
+        axios.put(`/api/students/${student.uuid}`, student)
+            .then(resp => {
+                return dispatch(getStudentsFromServer())
+            })
+            .catch(error => console.log(error))
+    }
+
+}
+
+export const addCampus = (campus) =>{
+    return (dispatch) =>{
+        axios.post('/api/campus/', campus)
+            .then(resp => {
+                return dispatch(getCampusesFromServer())
+            })
+            .catch(error => console.log(error))
+    }
+}
+
+
 //reducers
 const campusReducer = (state = [], action) => {
     switch (action.type){

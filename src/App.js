@@ -8,8 +8,9 @@ import Campuses from './Campuses'
 import Nav from './Nav'
 import Home from './Home'
 import OneCampus from './OneCampus'
+import CreateStudent from './CreateStudent'
+import CreateCampus from './CreateCampus'
 import {getStudentsFromServer, getCampusesFromServer} from './store'
-
 
 
 
@@ -43,9 +44,12 @@ class App extends React.Component{
             <div>
                 <Nav />
                 <Switch>
-                    <Route path='/students' component={Students}/>
+                    <Route exact path='/students' component={Students}/>
                     <Route exact path='/campuses' component={Campuses}/>
                     <Route exact path='/campuses/:id' component={OneCampus} />
+                    <Route exact path='/students/:id' render={(props)=><CreateStudent match={props.match} history={props.history} />} />
+                    <Route exact path='/createStudent' component={CreateStudent} />
+                    <Route exact path='/createCampus' component={CreateCampus} />
                     <Route component={Home} />
                 
                 </Switch>
@@ -53,9 +57,6 @@ class App extends React.Component{
         )
     }
 
-
-        
-    
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

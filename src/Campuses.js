@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Link, Redirect} from 'react-router-dom'
 import {getOneCampusFromServer} from './store'
 
+
 const mapStateToProps = (state) =>{
     return{
         campuses:state.campuses
@@ -17,20 +18,21 @@ const mapDispatchToProps = (dispatch) =>{
 
 
 const Campuses = (props) =>{
-    const {campuses, getOneCampusFromServer} = props
+    const {campuses, getOneCampusFromServer, history} = props
     return(
-        <div display="container">
-            <h3>ALL SCHOOLS</h3>
+        <div className="container">
+            <h3>ALL CAMPUSES <button onClick = {() => {history.push('/createCampus')}} className="btn-floating btn-small waves-effect waves-light green"><span>+</span></button></h3>
+            
+
             <div className="row">
                 {campuses.map(campus =>{
                     return(
-                        <div key={campus.uuid} className="col s6 centered">
+                        <div key={campus.uuid} className="col s4 centered">
                             <Link to={`/campuses/${campus.uuid}`} >
                                 <img height="200 px" width="200 px" src={campus.imageUrl} onClick={() => getOneCampusFromServer(campus.uuid)}/> 
                             </Link>
-
                             <br />
-                            {campus.name}<br />
+                            <span className="flow-text">{campus.name}</span><br /><br /><br />
                         </div>
                     )
                 })}

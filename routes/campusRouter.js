@@ -22,8 +22,8 @@ router.get('/:campusUUID', (req, res, next) =>{
         })
 })
 
-
 router.post('/', (req, res, next) =>{
+    console.log('in post')
     Campus.create(req.body)
         .then(resp => res.send(resp))
         .catch(next)

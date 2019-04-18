@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 2525
 //middlewarez
 app.use(express.static('public'))
 app.use(express.static('dist'))
+app.use(express.json())
 app.use('/api/campus', campusRouter)
 app.use('/api/students', studentsRouter)
 
@@ -18,31 +19,36 @@ app.get('/', (req, res, next) =>{
     res.sendFile(__dirname + '/index.html')
 })
 
-// syncDB()
+
+
+
 let campuses = []
+
 db.sync({force:true})
     .then(() => {
-        return Promise.all([
-            Campus.create(makeFakeCampus()), 
-            Campus.create(makeFakeCampus()),
-            Campus.create(makeFakeCampus()), 
-            Campus.create(makeFakeCampus())
-        ])
+        let fiveCampusPromises = [];
+
+        for(let i = 0; i < 5; i++){
+            fiveCampusPromises.push(Campus.create(makeFakeCampus()))
+        }
+
+        return Promise.all(fiveCampusPromises)
     })
     .then((resp) => {
         campuses = resp
-        return Promise.all([
-            Student.create(makeFakeStudent()), 
-            Student.create(makeFakeStudent()),
-            Student.create(makeFakeStudent()), 
-            Student.create(makeFakeStudent())
-        ])
+        console.log(campuses.length)
+        let hundredStudentPromises = [];
+        
+        for(let i = 0; i < 100; i++){
+            hundredStudentPromises.push(Student.create(makeFakeStudent()))
+        }
+        
+        return Promise.all(hundredStudentPromises)
     })
     .then((students) =>{
-        students[0].setCampus(campuses[0]);
-        students[1].setCampus(campuses[1]);
-        students[2].setCampus(campuses[2]);
-        students[3].setCampus(campuses[3])
+        //ASSIGN RANDOM CAMPUSES TO STUDENTS
+        students.forEach(student => student.setCampus(campuses[Math.floor(Math.random()*campuses.length)]))
+       
     })
     .then(() =>{
         app.listen(PORT, ()=>{
@@ -50,23 +56,3 @@ db.sync({force:true})
         })
     })
     .catch(error => console.log(error))   
-
-
-
-
-     // .then(() => {
-    //     return Promise.all([
-    //         Promise.all([
-    //             Campus.create(makeFakeCampus()), 
-    //             Campus.create(makeFakeCampus()),
-    //             Campus.create(makeFakeCampus()), 
-    //             Campus.create(makeFakeCampus())
-    //         ]), 
-    //         Promise.all([
-    //             Student.create(makeFakeStudent()), 
-    //             Student.create(makeFakeStudent()),
-    //             Student.create(makeFakeStudent()), 
-    //             Student.create(makeFakeStudent())
-    //         ])
-    //     ])
-    // })

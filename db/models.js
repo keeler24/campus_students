@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+const faker = require('faker')
 const db = new Sequelize(process.env.DATABASE_URL);
 
 const Campus = db.define('campus', {
@@ -16,7 +17,7 @@ const Campus = db.define('campus', {
     },
     imageUrl:{
         type:Sequelize.STRING,
-        defaultValue:''
+        defaultValue:faker.image.city()
     },
     address:{
         type:Sequelize.TEXT,
@@ -60,7 +61,7 @@ const Student = db.define('student', {
     },
     imageUrl:{
         type:Sequelize.STRING,
-        defaultValue:''
+        defaultValue:faker.image.imageUrl(200,200,"people")
     },
     gpa:{
         type:Sequelize.FLOAT,
